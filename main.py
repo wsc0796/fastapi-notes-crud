@@ -28,8 +28,9 @@ def list_notes(
     service: NoteServiceDep,
     skip: int = 0,
     limit: int = 10,
+    category: str | None = None
 ) -> list[NoteRead]:
-    return service.list_notes(skip, limit)
+    return service.list_notes(skip, limit, category)
 
 
 @app.get("/notes/search", response_model=list[NoteRead])

@@ -66,6 +66,21 @@ class TestNotesAPI:
         resp = client.get("/notes?skip=2&limit=10")
         assert resp.status_code == 200
 
+    def test_list_notes_filter_by_category(self):
+        """?category=work → 只返回 category 为 work 的笔记"""
+        self._create_note(category="work")
+        self._create_note(category="personal")
+        self._create_note(category="work")
+        resp = client.get("/notes?category=work")
+        assert resp.status_code == 200
+        assert all(n["category"] == "work" for n in resp.json())
+
+    def test_list_notes_filter_no_match(self):
+        """过滤不存在 category → 空列表"""
+        resp = client.get("/notes?category=non_existent")
+        assert resp.status_code == 200
+        assert resp.json() == []
+
     # ──  GET /notes/search?q=  ────────────────────────────
 
     def test_search_notes(self):

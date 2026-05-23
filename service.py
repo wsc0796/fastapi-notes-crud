@@ -14,9 +14,12 @@ class NoteService:
     def __init__(self, repository: NoteRepository) -> None:
         self.repository = repository
 
-    def list_notes(self, skip: int = 0, limit: int = 10) -> list[NoteRead]:
+    def list_notes(self, skip: int = 0, limit: int = 10,category: str | None = None) -> list[NoteRead]:
         notes = self.repository.list_notes()
+        if category is not None:
+            notes = [note for note in notes if note.category == category]
         return notes[skip:skip + limit]
+    
 
     def create_note(self, note_create: NoteCreate) -> NoteRead:
         notes = self.repository.list_notes()
@@ -27,7 +30,7 @@ class NoteService:
             created_at=datetime.now(),
             title=note_create.title,
             priority=note_create.priority,
-            category=note_create.category,
+            category=note_create.category
         )
         notes.append(note)
         self.repository.save_notes(notes)
