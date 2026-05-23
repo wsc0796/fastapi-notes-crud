@@ -26,7 +26,7 @@ def main() -> None:
     # 需求④：测试创建笔记 —— POST /notes
     created = client.post(
         "/notes",
-        json={"content": "今天学习 FastAPI", "title": "FastAPI 学习记录"},
+        json={"content": "今天学习 FastAPI", "title": "FastAPI 学习记录", "priority": 3, "category": "学习"},
     )
     assert created.status_code == 201, created.text       # 创建成功
     note = created.json()                                  # 拿到响应 JSON
