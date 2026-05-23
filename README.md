@@ -86,7 +86,7 @@ POST /notes
 pytest test_notes_api.py -v
 ```
 
-13 tests covering:
+15 tests covering:
 - CRUD happy paths
 - 404 / 422 error handling
 - Pagination
